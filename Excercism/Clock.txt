@@ -1,0 +1,27 @@
+export class Clock {
+    private hour: number;
+    private minute: number;
+    constructor(hour: number, minute: number = 0) {
+        const totalMinutes = (hour * 60 + minute) % 1440;
+        if (totalMinutes < 0) {
+            this.hour = Math.floor((totalMinutes + 1440) / 60) % 24;
+            this.minute = (totalMinutes + 1440) % 60;
+        } else {
+            this.hour = Math.floor(totalMinutes / 60) % 24;
+            this.minute = totalMinutes % 60;
+        }
+    }
+    public toString(): string {
+        const pad = (num: number) => num.toString().padStart(2, '0');
+        return `${pad(this.hour)}:${pad(this.minute)}`;
+    }
+    public plus(minutes: number): Clock {
+        return new Clock(this.hour, this.minute + minutes);
+    }
+    public minus(minutes: number): Clock {
+        return new Clock(this.hour, this.minute - minutes);
+    }
+    public equals(other: Clock): boolean {
+        return this.hour === other.hour && this.minute === other.minute;
+    }
+}
